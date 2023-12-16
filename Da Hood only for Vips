@@ -1,0 +1,583 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "🔫 Da Hood Script 🔫",
+    LoadingTitle = "Hyprox Hub v.1.0",
+    LoadingSubtitle = "By Fizz",
+    ConfigurationSaving = {
+       Enabled = false,
+       FolderName = nil, -- Create a custom folder for your hub/game
+       FileName = "HyproxHub"
+    },
+    Discord = {
+       Enabled = true,
+       Invite = "fizz-community", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
+       RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+    },
+    KeySystem = true, -- Set this to true to use our key system
+    KeySettings = {
+       Title = "Da Hood | Key",
+       Subtitle = "Key System",
+       Note = "Join Server From Misc Tab",
+       FileName = "Da Hood Script", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+       SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+       GrabKeyFromSite = true, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+       Key = {"https://pastebin.com/raw/FGfkDHbz"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+    }
+ })
+
+ local MainTab = Window:CreateTab("Main", nil) -- Title, Image
+ local MainSection = MainTab:CreateSection("Esp")
+ local = loadstring(game:HttpGet("https://kiriot22.com/releases/ESP.lua"))()
+
+ Rayfield:Notify({
+    Title = "The Script Has Been Executed",
+    Content = "Thanks For Buying Vip :DD",
+    Duration = 4.5,
+    Image = nil,
+    Actions = { -- Notification Buttons
+       Ignore = {
+          Name = "Okay!",
+          Callback = function()
+          print("The user tapped Okay!")
+       end
+    },
+ },
+ })
+
+ local Toggle = MainTab:CreateToggle({
+   Name = "ESP",
+   CurrentValue = false,
+   Flag = "ToggleEsp", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(L_201_arg0)
+      L_18_:Toggle(L_201_arg0)
+   end,
+})
+
+local Toggle = MainTab:CreateToggle({
+   Name = "ESP Tracers",
+   CurrentValue = false,
+   Flag = "Toggle Tracers", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(L_202_arg0)
+      L_18_.Tracers = L_202_arg0
+   end,
+})
+
+local Toggle = MainTab:CreateToggle({
+   Name = "ESP Names",
+   CurrentValue = false,
+   Flag = "Toggle Names", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(L_203_arg0)
+      L_18_.Names = L_203_arg0
+   end,
+})
+
+local Toggle = MainTab:CreateToggle({
+   Name = "Boxes",
+   CurrentValue = false,
+   Flag = "Toggle Boxes", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(L_204_arg0)
+      L_18_.Boxes = L_204_arg0
+   end,
+})
+
+local MainSection = MainTab:CreateSection("AimLock")
+
+local Button = MainTab:CreateButton(
+   Name = "AimLock",
+   Callback = function()
+      getgenv().AimPart = "HumanoidRootPart"
+	getgenv().AimlockKey = "q"
+	getgenv().AimRadius = 30
+	getgenv().ThirdPerson = true
+	getgenv().FirstPerson = true
+	getgenv().TeamCheck = false
+	getgenv().PredictMovement = true
+	getgenv().PredictionVelocity = 9
+	local L_27_, L_28_, L_29_, L_30_ =
+            game:GetService "Players",
+            game:GetService "UserInputService",
+            game:GetService "RunService",
+            game:GetService "StarterGui"
+	local L_31_, L_32_, L_33_, L_34_, L_35_, L_36_, L_37_ =
+            L_27_.LocalPlayer,
+            L_27_.LocalPlayer:GetMouse(),
+            workspace.CurrentCamera,
+            CFrame.new,
+            Ray.new,
+            Vector3.new,
+            Vector2.new
+	local L_38_, L_39_, L_40_ = true, false, false
+	local L_41_
+	getgenv().CiazwareUniversalAimbotLoaded = true
+	getgenv().WorldToViewportPoint = function(L_42_arg0)
+		return L_33_:WorldToViewportPoint(L_42_arg0)
+	end
+	getgenv().WorldToScreenPoint = function(L_43_arg0)
+		return L_33_.WorldToScreenPoint(L_33_, L_43_arg0)
+	end
+	getgenv().GetObscuringObjects = function(L_44_arg0)
+		if L_44_arg0 and L_44_arg0:FindFirstChild(getgenv().AimPart) and L_31_ and L_31_.Character:FindFirstChild("Head") then
+			local L_45_ = workspace:FindPartOnRay(L_35_(L_44_arg0[getgenv().AimPart].Position, L_31_.Character.Head.Position))
+			if L_45_ then
+				return L_45_:IsDescendantOf(L_44_arg0)
+			end
+		end
+	end
+	getgenv().GetNearestTarget = function()
+		local L_46_ = {}
+		local L_47_ = {}
+		local L_48_ = {}
+		for L_50_forvar0, L_51_forvar1 in pairs(L_27_:GetPlayers()) do
+			if L_51_forvar1 ~= L_31_ then
+				table.insert(L_46_, L_51_forvar1)
+			end
+		end
+		for L_52_forvar0, L_53_forvar1 in pairs(L_46_) do
+			if L_53_forvar1.Character ~= nil then
+				local L_54_ = L_53_forvar1.Character:FindFirstChild("Head")
+				if getgenv().TeamCheck == true and L_53_forvar1.Team ~= L_31_.Team then
+					local L_55_ =
+                            (L_53_forvar1.Character:FindFirstChild("Head").Position - game.Workspace.CurrentCamera.CFrame.p).magnitude
+					local L_56_ =
+                            Ray.new(
+                            game.Workspace.CurrentCamera.CFrame.p,
+                            (L_32_.Hit.p - game.Workspace.CurrentCamera.CFrame.p).unit * L_55_
+                        )
+					local L_57_, L_58_ = game.Workspace:FindPartOnRay(L_56_, game.Workspace)
+					local L_59_ = math.floor((L_58_ - L_54_.Position).magnitude)
+					L_47_[L_53_forvar1.Name .. L_52_forvar0] = {}
+					L_47_[L_53_forvar1.Name .. L_52_forvar0].dist = L_55_
+					L_47_[L_53_forvar1.Name .. L_52_forvar0].plr = L_53_forvar1
+					L_47_[L_53_forvar1.Name .. L_52_forvar0].diff = L_59_
+					table.insert(L_48_, L_59_)
+				elseif getgenv().TeamCheck == false and L_53_forvar1.Team == L_31_.Team then
+					local L_60_ =
+                            (L_53_forvar1.Character:FindFirstChild("Head").Position - game.Workspace.CurrentCamera.CFrame.p).magnitude
+					local L_61_ =
+                            Ray.new(
+                            game.Workspace.CurrentCamera.CFrame.p,
+                            (L_32_.Hit.p - game.Workspace.CurrentCamera.CFrame.p).unit * L_60_
+                        )
+					local L_62_, L_63_ = game.Workspace:FindPartOnRay(L_61_, game.Workspace)
+					local L_64_ = math.floor((L_63_ - L_54_.Position).magnitude)
+					L_47_[L_53_forvar1.Name .. L_52_forvar0] = {}
+					L_47_[L_53_forvar1.Name .. L_52_forvar0].dist = L_60_
+					L_47_[L_53_forvar1.Name .. L_52_forvar0].plr = L_53_forvar1
+					L_47_[L_53_forvar1.Name .. L_52_forvar0].diff = L_64_
+					table.insert(L_48_, L_64_)
+				end
+			end
+		end
+		if unpack(L_48_) == nil then
+			return nil
+		end
+		local L_49_ = math.floor(math.min(unpack(L_48_)))
+		if L_49_ > getgenv().AimRadius then
+			return nil
+		end
+		for L_65_forvar0, L_66_forvar1 in pairs(L_47_) do
+			if L_66_forvar1.diff == L_49_ then
+				return L_66_forvar1.plr
+			end
+		end
+		return nil
+	end
+	L_32_.KeyDown:Connect(
+            function(L_67_arg0)
+		if L_67_arg0 == AimlockKey and L_41_ == nil then
+			pcall(
+                        function()
+				if L_39_ ~= true then
+					L_39_ = true
+				end
+				local L_68_
+				L_68_ = GetNearestTarget()
+				if L_68_ ~= nil then
+					L_41_ = L_68_
+				end
+			end
+                    )
+		elseif L_67_arg0 == AimlockKey and L_41_ ~= nil then
+			if L_41_ ~= nil then
+				L_41_ = nil
+			end
+			if L_39_ ~= false then
+				L_39_ = false
+			end
+		end
+	end
+        )
+	L_29_.RenderStepped:Connect(
+            function()
+		if getgenv().ThirdPerson == true and getgenv().FirstPerson == true then
+			if
+                        (L_33_.Focus.p - L_33_.CoordinateFrame.p).Magnitude > 1 or
+                            (L_33_.Focus.p - L_33_.CoordinateFrame.p).Magnitude <= 1
+                     then
+				L_40_ = true
+			else
+				L_40_ = false
+			end
+		elseif getgenv().ThirdPerson == true and getgenv().FirstPerson == false then
+			if (L_33_.Focus.p - L_33_.CoordinateFrame.p).Magnitude > 1 then
+				L_40_ = true
+			else
+				L_40_ = false
+			end
+		elseif getgenv().ThirdPerson == false and getgenv().FirstPerson == true then
+			if (L_33_.Focus.p - L_33_.CoordinateFrame.p).Magnitude <= 1 then
+				L_40_ = true
+			else
+				L_40_ = false
+			end
+		end
+		if L_38_ == true and L_39_ == true then
+			if L_41_ and L_41_.Character and L_41_.Character:FindFirstChild(getgenv().AimPart) then
+				if getgenv().FirstPerson == true then
+					if L_40_ == true then
+						if getgenv().PredictMovement == true then
+							L_33_.CFrame =
+                                        L_34_(
+                                        L_33_.CFrame.p,
+                                        L_41_.Character[getgenv().AimPart].Position +
+                                            L_41_.Character[getgenv().AimPart].Velocity / PredictionVelocity
+                                    )
+						elseif getgenv().PredictMovement == false then
+							L_33_.CFrame = L_34_(L_33_.CFrame.p, L_41_.Character[getgenv().AimPart].Position)
+						end
+					end
+				elseif getgenv().ThirdPerson == true then
+					if L_40_ == true then
+						if getgenv().PredictMovement == true then
+							L_33_.CFrame =
+                                        L_34_(
+                                        L_33_.CFrame.p,
+                                        L_41_.Character[getgenv().AimPart].Position +
+                                            L_41_.Character[getgenv().AimPart].Velocity / PredictionVelocity
+                                    )
+						elseif getgenv().PredictMovement == false then
+							L_33_.CFrame = L_34_(L_33_.CFrame.p, L_41_.Character[getgenv().AimPart].Position)
+						end
+					end
+				end
+			end
+		end
+	end
+        )
+end
+)
+L_6_:NewTextBox(
+    "Aimlock Key",
+    "Aimlock Key should be lowercase.",
+    function(L_69_arg0)
+	getgenv().AimlockKey = L_69_arg0
+end
+)
+L_6_:NewTextBox(
+    "Aimlock Prediction",
+    "Customize your aimlock prediction",
+    function(L_70_arg0)
+	PredictionVelocity = L_70_arg0
+end
+)
+L_6_:NewDropdown(
+    "AimPart",
+    "Choose Aim Part to Lock At",
+    {
+	"Head",
+	"UpperTorso",
+	"HumanoidRootPart",
+	"LowerTorso"
+},
+    function(L_71_arg0)
+	getgenv().AimPart = L_71_arg0
+end
+)
+local L_7_ = L_4_:NewTab("Silent Aim")
+local L_8_ = L_7_:NewSection("ryware Softworks")
+L_8_:NewButton(
+    "Silent Aim",
+    "Silent Aim Toggle Key is T.",
+    function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/lemonsys/dahood/main/localsilentaim", true))()
+end
+)
+L_8_:NewTextBox(
+    "Silent Aim Prediction",
+    "0.157 for low ping 0.165 for medium ping 0.178 for high ping",
+    function(L_72_arg0)
+	DaHoodSettings.Prediction = L_72_arg0
+end
+)
+L_8_:NewDropdown(
+    "Silent Aim Part",
+    "Choose Silent Aim Part",
+    {
+	"Head",
+	"UpperTorso",
+	"HumanoidRootPart",
+	"LowerTorso"
+},
+    function(L_73_arg0)
+	Aiming.TargetPart = L_73_arg0
+end
+)
+L_8_:NewTextBox(
+    "Silent Aim Fov",
+    "Silent Aim Fov Changer",
+    function(L_74_arg0)
+	Aiming.FOV = L_74_arg0
+end
+)
+L_8_:NewToggle(
+    "Silent Aim Show Fov",
+    "yea",
+    function(L_75_arg0)
+	Aiming.ShowFOV = L_75_arg0
+end
+)
+local L_9_ = L_4_:NewTab("Silent Aimlock")
+local L_10_ = L_9_:NewSection("ryware Softworks")
+L_10_:NewButton(
+    "Silent Aimlock",
+    "Key is Q.",
+    function()
+	_G.KEY = "q"
+	_G.PART = "LowerTorso"
+	_G.PRED = 0.032
+	_G.Frame = Vector3.new(0, 0.53, 0)
+	local L_76_ = game:GetService "Workspace".CurrentCamera
+	local L_77_
+	local L_78_ = false
+	local L_79_ = nil
+	local L_80_ = game.Players.LocalPlayer:GetMouse()
+	local L_81_ = Instance.new("Part", game.Workspace)
+	local L_82_ = Instance.new("Folder", game.CoreGui)
+	function makemarker(L_86_arg0, L_87_arg1, L_88_arg2, L_89_arg3, L_90_arg4)
+		local L_91_ = Instance.new("BillboardGui", L_86_arg0)
+		L_91_.Name = "PP"
+		L_91_.Adornee = L_87_arg1
+		L_91_.Size = UDim2.new(L_89_arg3, L_90_arg4, L_89_arg3, L_90_arg4)
+		L_91_.AlwaysOnTop = true
+		local L_92_ = Instance.new("Frame", L_91_)
+		L_92_.Size = UDim2.new(4, 0, 4, 0)
+		L_92_.BackgroundTransparency = 0.1
+		L_92_.BackgroundColor3 = L_88_arg2
+		local L_93_ = Instance.new("UICorner", L_92_)
+		L_93_.CornerRadius = UDim.new(50, 50)
+		return L_91_
+	end
+	local L_83_ = game.Players:GetPlayers()
+	function noob(L_94_arg0)
+		local L_95_
+		repeat
+			wait()
+		until L_94_arg0.Character
+		local L_96_ = makemarker(L_82_, L_94_arg0.Character:WaitForChild(_G.PART), Color3.fromRGB(255, 255, 255), 0.0, 0)
+		L_96_.Name = L_94_arg0.Name
+		L_94_arg0.CharacterAdded:connect(
+                function(L_98_arg0)
+			L_96_.Adornee = L_98_arg0:WaitForChild(_G.PART)
+		end
+            )
+		local L_97_ = Instance.new("TextLabel", L_96_)
+		L_97_.BackgroundTransparency = 1
+		L_97_.Position = UDim2.new(0, 0, 0, -50)
+		L_97_.Size = UDim2.new(0, 100, 0, 100)
+		L_97_.Font = Enum.Font.SourceSansSemibold
+		L_97_.TextSize = 14
+		L_97_.TextColor3 = Color3.new(1, 1, 1)
+		L_97_.TextStrokeTransparency = 0
+		L_97_.TextYAlignment = Enum.TextYAlignment.Bottom
+		L_97_.Text = "Name: " .. L_94_arg0.Name
+		L_97_.ZIndex = 10
+		spawn(
+                function()
+			while wait() do
+				if L_94_arg0.Character then
+				end
+			end
+		end
+            )
+	end
+	for L_99_forvar0 = 1, #L_83_ do
+		if L_83_[L_99_forvar0] ~= game.Players.LocalPlayer then
+			noob(L_83_[L_99_forvar0])
+		end
+	end
+	game.Players.PlayerAdded:connect(
+            function(L_100_arg0)
+		noob(L_100_arg0)
+	end
+        )
+	game.Players.PlayerRemoving:Connect(
+            function(L_101_arg0)
+		L_82_[L_101_arg0.Name]:Destroy()
+	end
+        )
+	spawn(
+            function()
+		L_81_.Anchored = true
+		L_81_.CanCollide = false
+		L_81_.Size = Vector3.new(0.1, 0.1, 0.1)
+		L_81_.Transparency = 0.1
+		makemarker(L_81_, L_81_, Color3.fromRGB(255, 0, 0), 0.20, 0)
+	end
+        )
+	L_80_.KeyDown:Connect(
+            function(L_102_arg0)
+		if L_102_arg0 ~= _G.KEY then
+			return
+		end
+		if L_78_ then
+			L_78_ = false
+			TextLabel.TextColor3 = Color3.fromRGB(255, 20, 75)
+			TextLabel.Text = "------"
+		else
+			L_78_ = true
+			L_77_ = getClosestPlayerToCursor()
+			TextLabel.TextColor3 = Color3.fromRGB(12, 255, 0)
+			TextLabel.Text = L_77_.Character.Humanoid.DisplayName
+		end
+	end
+        )
+	function getClosestPlayerToCursor()
+		local L_103_
+		local L_104_ = math.huge
+		for L_105_forvar0, L_106_forvar1 in pairs(game.Players:GetPlayers()) do
+			if
+                    L_106_forvar1 ~= game.Players.LocalPlayer and L_106_forvar1.Character and L_106_forvar1.Character:FindFirstChild("Humanoid") and
+                        L_106_forvar1.Character.Humanoid.Health ~= 0 and
+                        L_106_forvar1.Character:FindFirstChild(_G.PART)
+                 then
+				local L_107_ = L_76_:WorldToViewportPoint(L_106_forvar1.Character.PrimaryPart.Position)
+				local L_108_ = (Vector2.new(L_107_.X, L_107_.Y) - Vector2.new(L_80_.X, L_80_.Y)).magnitude
+				if L_108_ < L_104_ then
+					L_103_ = L_106_forvar1
+					L_104_ = L_108_
+				end
+			end
+		end
+		return L_103_
+	end
+	game:GetService "RunService".Stepped:connect(
+            function()
+		if L_78_ and L_77_.Character and L_77_.Character:FindFirstChild(_G.PART) then
+			L_81_.CFrame =
+                        CFrame.new(L_77_.Character[_G.PART].Position + _G.Frame + L_77_.Character[_G.PART].Velocity * L_79_)
+		else
+			L_81_.CFrame = CFrame.new(0, 9999, 0)
+		end
+	end
+        )
+	local L_84_ = getrawmetatable(game)
+	local L_85_ = L_84_.__namecall
+	setreadonly(L_84_, false)
+	L_84_.__namecall =
+            newcclosure(
+            function(...)
+		local L_109_ = {
+			...
+		}
+		if L_78_ and getnamecallmethod() == "FireServer" and L_109_[2] == "UpdateMousePos" then
+			L_109_[3] = L_77_.Character[_G.PART].Position + _G.Frame + L_77_.Character[_G.PART].Velocity * L_79_
+			return L_85_(unpack(L_109_))
+		end
+		return L_85_(...)
+	end
+        )
+	game.Players.LocalPlayer.Chatted:Connect(
+            function(L_110_arg0)
+		if L_110_arg0 == "/e print" then
+			print(_G.PRED)
+		end
+	end
+        )
+	game.Players.LocalPlayer.Chatted:Connect(
+            function(L_111_arg0)
+		if L_111_arg0 == "Code:1029" then
+			_G.KEY = nil
+			_G.AIR = nil
+			_G.PART = nil
+			_G.PRED = nil
+			TextLabel.Visible = false
+		end
+	end
+        )
+	game.Players.LocalPlayer.Chatted:Connect(
+            function(L_112_arg0)
+		if L_112_arg0 == "/e hrp" then
+			_G.KEY = "q"
+			_G.AIR = 0.00005
+			_G.PART = "HumanoidRootPart"
+			_G.PRED = 0.032
+			TextLabel.Visible = true
+		end
+	end
+        )
+	game.Players.LocalPlayer.Chatted:Connect(
+            function(L_113_arg0)
+		if L_113_arg0 == "/e lt" then
+			_G.KEY = "q"
+			_G.AIR = 0.00005
+			_G.PART = "LowerTorso"
+			_G.PRED = 0.032
+			TextLabel.Visible = true
+		end
+	end
+        )
+	game.Players.LocalPlayer.Chatted:Connect(
+            function(L_114_arg0)
+		if L_114_arg0 == "Screensharing" then
+			_G.KEY = "q"
+			_G.AIR = 0.00005
+			_G.PART = "LowerTorso"
+			_G.PRED = 0.033
+			TextLabel.Visible = true
+			L_81_ = nil
+		end
+	end
+        )
+	game.Players.LocalPlayer.Chatted:Connect(
+            function(L_115_arg0)
+		if L_115_arg0 == "/e P+" then
+			_G.PRED = _G.PRED + 0.001
+		end
+	end
+        )
+	game.Players.LocalPlayer.Chatted:Connect(
+            function(L_116_arg0)
+		if L_116_arg0 == "/e P-" then
+			_G.PRED = _G.PRED - 0.001
+		end
+	end
+        )
+	while wait() do
+		if
+                getClosestPlayerToCursor().Character.Humanoid.Jump == true and
+                    getClosestPlayerToCursor().Character.Humanoid.FloorMaterial == Enum.Material.Air
+             then
+			_G.Frame = Vector3.new(0, -2.3, 0)
+			wait(0.05)
+		else
+			local L_117_ = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
+			local L_118_ = tostring(L_117_)
+			local L_119_ = L_118_:split(" ")
+			local L_120_ = L_119_[1]
+			L_79_ = L_120_ / 1000 + _G.PRED
+			_G.Frame = Vector3.new(0, 0.53, 0)
+		end
+	end
+end,
+)
+
+
+local MainSection = MainTab:CreateSection('Trash talk')
+
+local Button = MainTab:CreateButton({
+   Name = "Trash Talk",
+   Callback = function()
+      loadstring(game:HttpGet(("https://raw.githubusercontent.com/Raycodex/Exploiting/main/Roblox/Da%20Hood%20Auto%20Arrest"), true))()
+   end,
+})
